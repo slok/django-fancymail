@@ -1,0 +1,6 @@
+{% block body %}
+{% endblock body %}
+
+*************************************
+*   Powered by Python and Django   *
+*************************************

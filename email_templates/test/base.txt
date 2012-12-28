@@ -1,0 +1,4 @@
+{% block body%}
+{% endblock body%}
+----------------------------------------------
+powered by Python, Django and Django fancymail

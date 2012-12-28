@@ -1,0 +1,6 @@
+{% extends "test/base.txt" %}
+{% block body %}
+{{ title }}:
+
+{{ description }}
+{% endblock body %} 

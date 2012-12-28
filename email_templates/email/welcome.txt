@@ -1,0 +1,9 @@
+{% extends "email/base.txt" %}
+
+{% block body %}
+{{ main_title }}
+--------------
+
+{{ title }}:
+{{ description }}
+{% endblock body %}
