@@ -3,8 +3,9 @@ import shutil
 
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.template import TemplateDoesNotExist
 
-from fancymail.mail import send_mail
+from fancymail.mail import FancyMail, send_mail
 
 TMP_DIR = '/tmp/fancymail'
 
@@ -37,13 +38,17 @@ class MailTest(TestCase):
     TEXT_TEMPLATE = "test/test.txt"
     CONTEXT = {'main_title': "Test",
                    'title': "Summary",
-                   'description': "This is a test in Django and email with template using dancymail"}
+                   'description': "This is a test in Django and email with " +\
+                   "template using dancymail"}
     FROM_EMAIL = "me@testfancymail.com"
     RECIPIENT_LIST = ["you@testfancymail.com", ]
 
     def tearDown(self):
         # Delete tmp dir
-        shutil.rmtree(TMP_DIR)
+        try:
+            shutil.rmtree(TMP_DIR)
+        except OSError:
+            pass
 
     def test_send_mail(self):
         """Tests the send of an email with a HTML and text template"""
@@ -157,3 +162,53 @@ class MailTest(TestCase):
 
         # 5 Check html content
         self.assertTrue(MailTest.CORRECT_HTML in email_file)
+
+    def test_send_mail_template_error(self):
+        msg = FancyMail(subject=MailTest.SUBJECT,
+            from_email=MailTest.FROM_EMAIL,
+            to=MailTest.RECIPIENT_LIST)
+        self.assertRaises(AttributeError, msg.send)
+
+    def test_send_mail_set_template_after_with_autoload_template(self):
+        msg = FancyMail(subject=MailTest.SUBJECT,
+            from_email=MailTest.FROM_EMAIL,
+            to=MailTest.RECIPIENT_LIST)
+
+        msg.html_template = MailTest.HTML_TEMPLATE
+        msg.context = MailTest.CONTEXT
+        msg.text_template = MailTest.TEXT_TEMPLATE
+        msg.send()
+
+        # Check that is correct
+        # 1 read email file
+        email_file = read_single_file(TMP_DIR)
+
+        # 2 Check headers data:
+        content_type = "Content-Type: multipart/alternative;"
+        subject = "Subject: {0}".format(MailTest.SUBJECT)
+        sender = "From: {0}".format(MailTest.FROM_EMAIL)
+        receiver = "To: {0}".format(MailTest.RECIPIENT_LIST[0])
+        self.assertTrue(content_type in email_file)
+        self.assertTrue(subject in email_file)
+        self.assertTrue(sender in email_file)
+        self.assertTrue(receiver in email_file)
+
+        # 3 Check that there are 2 types of email (text and HTML)
+        plain = 'Content-Type: text/plain; charset="utf-8"'
+        html = 'Content-Type: text/html; charset="utf-8"'
+        self.assertTrue(plain in email_file)
+        self.assertTrue(html in email_file)
+
+        # 4 Check text content
+        self.assertTrue(MailTest.CORRECT_TEXT in email_file)
+
+        # 5 Check html content
+        self.assertTrue(MailTest.CORRECT_HTML in email_file)
+
+    def test_load_template_error(self):
+        msg = FancyMail(subject=MailTest.SUBJECT,
+            from_email=MailTest.FROM_EMAIL,
+            to=MailTest.RECIPIENT_LIST)
+
+        self.assertRaises(TemplateDoesNotExist, msg.load_template,
+                            "fake/template.html", {'my_var': "dones't exists"})
