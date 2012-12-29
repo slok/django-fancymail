@@ -29,7 +29,9 @@ def index(request):
             }
 
             # Load templates
-            msg.load_template("email/welcome.html", context)
+            template = form.cleaned_data['template']
+            msg.load_template("email/{0}/welcome.html".format(template),
+                                context)
             # Send!
             msg.send()
 

@@ -1,0 +1,14 @@
+{% extends "email/template1/base.txt" %}
+
+{% block body %}
+{{ main_title }}
+
+Hello {{user}}!!:
+
+This is the description, '{{ user }} new user:
+This is a sample template email from Django fancymail.
+
+Fancy mail is a Django app to help managing your templated emails. The aim of this app is to be simple and to reuse all the stuff that Django gives us, like the email classes that works perfect (Thank you Django). There are alternatives like Django templated mail. But this app has many options, like backends, template renderers...
+
+Fancy mail is more simple, you say where is the html template, what are the variables to use (context) and the text template (this is optional) and we are done!
+{% endblock body %}

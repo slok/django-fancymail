@@ -1,0 +1,33 @@
+{% extends "email/template2/base.html" %}
+{% block body %}
+<div style="width:100%;" align="center">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" style="background-color:#ff0066;" bgcolor="#ff0066;">
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="20" align="left" valign="top" bgcolor="#000000" style="background-color:#000000;">&nbsp;</td>
+            <td align="center" valign="top" bgcolor="#000000" style="background-color:#000000; color:#7b7b7b; font-family:Arial, Helvetica, sans-serif; font-size:14px;"><br>
+              <br>
+            <br>
+            <div style="color:#ff0066; font-family:Georgia, Times New Roman, Times, serif; font-size:24px;">
+                Hello {{user}}!!<br>
+            </div><br>
+<br>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="65" align="center" valign="middle"><div style="color:#FFFFFF; font-size:28px; font-family:Arial, Helvetica, sans-serif;">Description:</div></td>
+                  </tr>
+                </table>
+                This is a sample template email from <a href="https://github.com/slok/django-fancymail">Django fancymail</a>.
+
+                Fancy mail is a Django app to help managing your templated emails. The aim of this app is to be simple and to reuse all the stuff that Django gives us, like the email classes that works perfect (Thank you Django). There are alternatives like <a href="https://github.com/bradwhittington/django-templated-email"> Django templated mail</a>. But this app has many options, like backends, template renderers...
+
+                Fancy mail is more simple, you say where is the html template, what are the variables to use (context) and the text template (this is optional) and we are done!
+                <br>
+                <br>
+<br>
+<br>
+<br>
+{% endblock body %}
