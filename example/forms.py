@@ -2,8 +2,7 @@ from django import forms
 
 
 CHOICES = [('template1', 'Template 1'),
-          ('template2', 'Template 2'),
-          ('template2', 'Template 3')]
+          ('template2', 'Template 2')]
 
 
 class MailForm(forms.Form):
