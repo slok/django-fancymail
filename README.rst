@@ -31,6 +31,11 @@ In two words: is simple!
 You can use Fancy mail in two forms like the Django email. You can use the class
 of ``FancyMail`` directly or you can use shortcuts
 
+Dependencies
+------------
+
+- Django 1.4.*
+- TODO: Test with 1.3.*
 
 Quickstart
 ----------
@@ -93,7 +98,7 @@ then you need to create an instance of FancyMail with the needed data:
 
     msg = FancyMail(subject="This is a test email", 
                 from_email="test1@djangofancymail.org",
-                to=(test2@djangofancymail.org,))
+                to=("test2@djangofancymail.org",))
 
 
 Then you need to load the templates:
@@ -127,7 +132,7 @@ Even simpler!:
 .. code-block:: python
 
     send_mail("This is a test email", "email/welcome.html", {'user': "slok"},
-            "test1@djangofancymail.org", (test2@djangofancymail.org,), 
+            "test1@djangofancymail.org", ("test2@djangofancymail.org",), 
             "email/welcome.txt")
 
 TODO
