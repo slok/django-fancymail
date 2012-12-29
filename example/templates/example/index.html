@@ -1,0 +1,15 @@
+{% extends "example/base.html" %}
+{% block body %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    <form action="" method="post">{% csrf_token %}
+        {{ mail_form.as_p }}
+        <input type="submit" value="Send templated email!" />
+    </form>
+{% endblock body %}
