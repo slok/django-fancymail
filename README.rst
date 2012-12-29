@@ -46,7 +46,9 @@ Prepare the templates
 Fancy mail uses de Dajngo renderer for the templates so by default this uses
 the template loader.
 
-Add to the template loader in our settings ``TEMPLATE_LOADERS`` var this::
+Add to the template loader in our settings ``TEMPLATE_LOADERS`` var this:
+
+.. code-block:: python
     
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -64,7 +66,9 @@ with this estructure::
         `-- welcome.txt
 
 So we add in the settings ``TEMPLATE_DIRS`` this 
-(in production add full path not relative)::
+(in production add full path not relative):
+
+.. code-block:: python
 
     'email_templates/'
 
@@ -77,28 +81,38 @@ Using the class directoly (this has more options, the same options that the
 Django documentation explains for EmailMultiAlternatives and EmailMessage)
 
 
-First import:: 
+First import:
+
+.. code-block:: python
 
     from fancymail.mail import FancyMail 
 
-then you need to create an instance of FancyMail with the needed data::
+then you need to create an instance of FancyMail with the needed data:
+
+.. code-block:: python
 
     msg = FancyMail(subject="This is a test email", 
                 from_email="test1@djangofancymail.org",
                 to=(test2@djangofancymail.org,))
 
 
-Then you need to load the templates::
+Then you need to load the templates:
+
+.. code-block:: python
 
     msg.load_template("email/welcome.html", {'user': "slok"}, "email/welcome.txt")
 
-OR set in the instance (when send the templates will be rendered) if you prefer::
+OR set in the instance (when send the templates will be rendered) if you prefer:
+
+.. code-block:: python
 
     msg.html_template = "email/welcome.html"
     msg.context = {'user': "slok"}
     msg.text_template = "email/welcome.txt"
 
-Send the email!::
+Send the email!:
+
+.. code-block:: python
 
     msg.send()
 
@@ -108,7 +122,9 @@ simple and easy :)
 Use with Shortcuts
 ==================
 
-Even simpler!::
+Even simpler!:
+
+.. code-block:: python
 
     send_mail("This is a test email", "email/welcome.html", {'user': "slok"},
             "test1@djangofancymail.org", (test2@djangofancymail.org,), 
