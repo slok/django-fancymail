@@ -43,7 +43,9 @@ Quickstart
 Install
 =======
 
-TODO ``setup.py``
+.. code-block:: bash
+
+pip install git+git://github.com/slok/django-fancymail.git
 
 Prepare the templates
 =====================
