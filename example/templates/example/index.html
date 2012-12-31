@@ -1,5 +1,18 @@
 {% extends "example/base.html" %}
 {% block body %}
+    
+    <script>
+        $('#mail_form :checkbox').click(function() {
+            var $this = $(this);
+            // $this will contain a reference to the checkbox   
+            if ($this.is(':checked')) {
+                alert("checked");
+            } else {
+                alert("not checked!");
+            }
+        });
+    </script> 
+
     {% if messages %}
     {% for message in messages %}
         <div class="alert alert-success">
@@ -7,9 +20,88 @@
         </div>
     {% endfor %}
     {% endif %}
+    <h1>Send a testing Email with Django Fancymail</h1>
+    <div class="well">
+     <form id="mail_form" class="form-horizontal" action="" method="post">{% csrf_token %}
+        {{ mail_form.non_field_errors }}
+        {{ mail_form.template.errors }}
 
-    <form action="" method="post">{% csrf_token %}
-        {{ mail_form.as_p }}
-        <input type="submit" value="Send templated email!" />
+        <div class="radio">
+            {{ mail_form.template.label_tag }}
+            <div class="controls">
+                {{ mail_form.template }}
+            </div>
+        </div>
+        
+        {{ mail_form.subject.errors }}
+         <div class="control-group">
+            {{ mail_form.subject.label_tag }}
+            <div class="controls">
+                {{ mail_form.subject }}
+            </div>
+        </div>
+
+        {{ mail_form.to.errors }}
+         <div class="control-group">
+            {{ mail_form.to.label_tag }}
+            <div class="controls">
+                {{ mail_form.to }}
+            </div>
+        </div>
+
+        {{ mail_form.from_email.errors }}
+         <div class="control-group">
+            {{ mail_form.from_email.label_tag }}
+            <div class="controls">
+                {{ mail_form.from_email }}
+            </div>
+        </div>
+       
+        {{ mail_form.password.errors }}
+         <div class="control-group">
+            {{ mail_form.password.label_tag }}
+            <div class="controls">
+                {{ mail_form.password }}
+            </div>
+        </div>
+      
+        {{ mail_form.context_user.errors }}
+         <div class="control-group">
+            {{ mail_form.context_user.label_tag }}
+            <div class="controls">
+                {{ mail_form.context_user }}
+            </div>
+        </div>
+
+        <div class="checkbox">
+            {{ mail_form.use_gmail.label_tag }}
+            <div class="controls">
+                {{ mail_form.use_gmail }}
+            </div>
+        </div>
+        <div class="checkbox">
+            {{ mail_form.use_tls.label_tag }}
+            <div class="controls">
+                {{ mail_form.use_tls }}
+            </div>
+        </div>
+        <div class="control-group">
+            {{ mail_form.email_host.label_tag }}
+            <div class="controls">
+                {{ mail_form.email_host }}
+            </div>
+        </div>
+        <div class="control-group">
+            {{ mail_form.email_port.label_tag }}
+            <div class="controls">
+                {{ mail_form.email_port }}
+            </div>
+        </div>
+
+
+        <button class="btn btn-primary" type="submit">Send templated email!</button>
     </form>
+
+    </div>
+
 {% endblock body %}
