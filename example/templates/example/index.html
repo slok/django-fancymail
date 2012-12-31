@@ -2,13 +2,38 @@
 {% block body %}
     
     <script>
-        $('#mail_form :checkbox').click(function() {
-            var $this = $(this);
-            // $this will contain a reference to the checkbox   
+        var use_tls = null;
+        var email_port = null;
+        var email_host = null;
+
+        $(document).on('click', '#id_use_gmail', function() {
+            var $this = $(this);   
             if ($this.is(':checked')) {
-                alert("checked");
+                // Save previous data
+                use_tls = $('#id_use_tls').is(':checked');
+                email_port = $('#id_email_port').val();
+                email_host = $('#id_email_host').val();
+
+                // set gmail data
+                $('#id_use_tls').attr('checked', true);
+                $('#id_email_port').val(587);
+                $('#id_email_host').val('smtp.gmail.com');
+
+                //disable forms
+                $('#id_use_tls').attr('readonly', true);
+                $('#id_email_port').attr('readonly', true);
+                $('#id_email_host').attr('readonly', true);
+
             } else {
-                alert("not checked!");
+                // recover the values
+                $('#id_use_tls').attr('checked', use_tls);
+                $('#id_email_port').val(email_port);
+                $('#id_email_host').val(email_host);
+
+                //enable again
+                $('#id_use_tls').removeAttr('readonly');
+                $('#id_email_port').removeAttr('readonly');
+                $('#id_email_host').removeAttr('readonly');
             }
         });
     </script> 
@@ -21,81 +46,125 @@
     {% endfor %}
     {% endif %}
     <h1>Send a testing Email with Django Fancymail</h1>
+    <div class="alert alert-block">
+        <h3>
+            Doesn't log or save the sent emails, email address or passwords.
+            <a href="https://github.com/slok/django-fancymail/blob/master/example/views.py">Check the code! :)</a>
+        </h3>
+    </div>
     <div class="well">
      <form id="mail_form" class="form-horizontal" action="" method="post">{% csrf_token %}
-        {{ mail_form.non_field_errors }}
-        {{ mail_form.template.errors }}
+        {% if mail_form.non_field_errors %}
+        <div class="alert alert-error">
+            {{ mail_form.non_field_errors }}
+        </div>
+        {% endif %}
+        <div class="alert alert-info">
+             <h3>Email settings</h3>
+            
+            {% if mail_form.subject.errors %}
+            <div class="alert alert-error">{{ mail_form.subject.errors }}</div>
+            {% endif %}
 
-        <div class="radio">
-            {{ mail_form.template.label_tag }}
-            <div class="controls">
-                {{ mail_form.template }}
+             <div class="control-group">
+                {{ mail_form.subject.label_tag }}
+                <div class="controls">
+                    {{ mail_form.subject }}
+                </div>
             </div>
-        </div>
-        
-        {{ mail_form.subject.errors }}
-         <div class="control-group">
-            {{ mail_form.subject.label_tag }}
-            <div class="controls">
-                {{ mail_form.subject }}
+
+            {% if mail_form.to.errors %}
+            <div class="alert alert-error">{{ mail_form.to.errors }}</div>
+            {% endif %}
+
+             <div class="control-group">
+                {{ mail_form.to.label_tag }}
+                <div class="controls">
+                    {{ mail_form.to }}
+                </div>
+            </div>
+
+            {% if mail_form.from_email.errors %}
+            <div class="alert alert-error">{{ mail_form.from_email.errors }}</div>
+            {% endif %}
+            
+             <div class="control-group">
+                {{ mail_form.from_email.label_tag }}
+                <div class="controls">
+                    {{ mail_form.from_email }}
+                </div>
+            </div>
+           
+            {% if mail_form.password.errors %}
+            <div class="alert alert-error">{{ mail_form.password.errors }}</div>
+            {% endif %}
+
+             <div class="control-group">
+                {{ mail_form.password.label_tag }}
+                <div class="controls">
+                    {{ mail_form.password }}
+                </div>
             </div>
         </div>
 
-        {{ mail_form.to.errors }}
-         <div class="control-group">
-            {{ mail_form.to.label_tag }}
-            <div class="controls">
-                {{ mail_form.to }}
+        <div class="alert alert-info">
+            <h3>Template settings</h3>
+            <div class="radio">
+                {{ mail_form.template.label_tag }}
+                <div class="controls">
+                    {{ mail_form.template }}
+                </div>
             </div>
-        </div>
 
-        {{ mail_form.from_email.errors }}
-         <div class="control-group">
-            {{ mail_form.from_email.label_tag }}
-            <div class="controls">
-                {{ mail_form.from_email }}
-            </div>
-        </div>
-       
-        {{ mail_form.password.errors }}
-         <div class="control-group">
-            {{ mail_form.password.label_tag }}
-            <div class="controls">
-                {{ mail_form.password }}
-            </div>
-        </div>
-      
-        {{ mail_form.context_user.errors }}
-         <div class="control-group">
+            {% if mail_form.context_user.errors %}
+            <div class="alert alert-error">{{ mail_form.context_user.errors }}</div>
+            {% endif %}
+
+            <div class="control-group">
             {{ mail_form.context_user.label_tag }}
             <div class="controls">
                 {{ mail_form.context_user }}
             </div>
         </div>
 
-        <div class="checkbox">
-            {{ mail_form.use_gmail.label_tag }}
-            <div class="controls">
-                {{ mail_form.use_gmail }}
-            </div>
         </div>
-        <div class="checkbox">
-            {{ mail_form.use_tls.label_tag }}
-            <div class="controls">
-                {{ mail_form.use_tls }}
+        <div class="alert alert-info">
+            <h3>Email host settings</h3>
+            <div class="checkbox">
+                {{ mail_form.use_gmail.label_tag }}
+                <div class="controls">
+                    {{ mail_form.use_gmail }}
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            {{ mail_form.email_host.label_tag }}
-            <div class="controls">
-                {{ mail_form.email_host }}
+            <div class="checkbox">
+                {{ mail_form.use_tls.label_tag }}
+                <div class="controls">
+                    {{ mail_form.use_tls }}
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            {{ mail_form.email_port.label_tag }}
-            <div class="controls">
-                {{ mail_form.email_port }}
+
+            {% if mail_form.email_host.errors %}
+            <div class="alert alert-error">{{ mail_form.email_host.errors }}</div>
+            {% endif %}
+
+            <div class="control-group">
+                {{ mail_form.email_host.label_tag }}
+                <div class="controls">
+                    {{ mail_form.email_host }}
+                </div>
             </div>
+
+            {% if mail_form.email_port.errors %}
+                <div class="alert alert-error">{{ mail_form.email_port.errors }}</div>
+            {% endif %}
+
+            <div class="control-group">
+                {{ mail_form.email_port.label_tag }}
+                <div class="controls">
+                    {{ mail_form.email_port }}
+                </div>
+            </div>
+
         </div>
 
 

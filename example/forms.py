@@ -17,5 +17,5 @@ class MailForm(forms.Form):
 
     email_host = forms.CharField(max_length=50, label=u'Email host')
     email_port = forms.IntegerField(label=u'Email port')
-    use_tls = forms.BooleanField(label=u'Use TLS')
-    use_gmail = forms.BooleanField(label=u'Use Gmail settings')
+    use_tls = forms.BooleanField(label=u'Use TLS', initial=False, required=False)
+    use_gmail = forms.BooleanField(label=u'Use Gmail settings', initial=False, required=False)
