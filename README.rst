@@ -7,6 +7,7 @@ Status
 
 :Version:  0.1
 :Tests: .. image:: https://api.travis-ci.org/slok/django-fancymail.png
+:Example: `http://fancymail.herokuapp.com/ <http://fancymail.herokuapp.com/>`_
 
 
 Overview
@@ -45,7 +46,8 @@ Install
 
 .. code-block:: bash
 
-pip install git+git://github.com/slok/django-fancymail.git
+    pip install git+git://github.com/slok/django-fancymail.git
+
 
 Prepare the templates
 =====================
